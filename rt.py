@@ -1,6 +1,7 @@
 import tweepy
 import creds
 import datetime
+import sys
 
 def get_twitter_client():
     
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     now = datetime.datetime.now()
     time_minutes = now.hour * 60 + now.minute
 
-    ids = open("to_be_retweeted.txt", "r")
+    ids = open("/home/alihahn/Desktop/atolye/odtu_kafeterya_tw_bot/to_be_retweeted.txt", "r")
     kahv_id = ids.readline()
     ogle_id = ids.readline()
     aksam_id = ids.readline()
@@ -32,7 +33,18 @@ if __name__ == "__main__":
     ogle_id = int(ogle_id.strip())
     aksam_id = int(aksam_id.strip())
 
+    sys.stdout = open("/home/alihahn/Desktop/atolye/odtu_kafeterya_tw_bot/stdout.txt", "a")
+    sys.stderr = sys.stdout
+
+    print(f"Retweeting: {datetime.datetime.now()}\n")
+
     if abs(time_minutes - ogle_dk) < abs(time_minutes - aksam_dk):
+        print(f"Retweeting Ogledin: {ogle_id}\n")
         client.retweet(ogle_id)
     else:
+        print(f"Retweeting Aksam: {aksam_id}\n")
         client.retweet(aksam_id)
+
+    print(f"Retweeted Successfully {datetime.datetime.now()}\n")
+    sys.stdout.close()
+    ids.close()

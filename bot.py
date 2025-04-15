@@ -8,6 +8,7 @@ import numpy as np
 import tweepy
 import creds
 import tempfile
+import sys
 
 URL = "https://kafeterya.metu.edu.tr/"
 
@@ -159,6 +160,9 @@ def prepare_tweets(meals):
         else:
             return
         
+        if "vegetarian" in keys:
+            tweet_text += meal["vegetarian"] + "\n"
+        
         if "images" in keys:
 
             images = [url_to_image(img) for img in meal["images"]]
@@ -190,7 +194,6 @@ def get_twitter_client():
         consumer_secret=creds.API_KEY_SECRET,
         access_token=creds.ACCES_TOKEN,
         access_token_secret=creds.ACCESS_TOKEN_SECRET,
-        wait_on_rate_limit=True,
     )
 
     return client
@@ -219,10 +222,20 @@ if __name__ == "__main__":
     client = get_twitter_client()
     old_api = get_old_twitter_api()
 
-    to_be_retweeted = open("to_be_retweeted.txt", "w")
+    sys.stdout = open("/home/alihahn/Desktop/atolye/odtu_kafeterya_tw_bot/stdout.txt", "a")
+    sys.stderr = sys.stdout
+
+    to_be_retweeted = open("/home/alihahn/Desktop/atolye/odtu_kafeterya_tw_bot/to_be_retweeted.txt", "w")
+    print(f"Tweeting: {datetime.datetime.now()}\n")
 
     for tw in tweets:
 
         tweet_text, tweet_picture = tw
 
         print(send_tweet(client, old_api, tweet_text, tweet_picture) + "\n", file=to_be_retweeted)
+        print(f"Tweeted: {tweet_text}\n")
+
+    print(f"Tweeted Successfully {datetime.datetime.now()}\n")
+
+    to_be_retweeted.close()
+    sys.stdout.close()
