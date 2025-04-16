@@ -215,15 +215,14 @@ def send_tweet(client: tweepy.Client, old_api: tweepy.API, tweet_text, tweet_pic
         return client.create_tweet(text=tweet_text).data["id"]
 
 if __name__ == "__main__":
+    sys.stdout = open("/home/alihahn/Desktop/atolye/odtu_kafeterya_tw_bot/stdout.txt", "a")
+    sys.stderr = sys.stdout
 
     tweets = get_tweets_w_assumption()
     #print(tweets)
 
     client = get_twitter_client()
     old_api = get_old_twitter_api()
-
-    sys.stdout = open("/home/alihahn/Desktop/atolye/odtu_kafeterya_tw_bot/stdout.txt", "a")
-    sys.stderr = sys.stdout
 
     to_be_retweeted = open("/home/alihahn/Desktop/atolye/odtu_kafeterya_tw_bot/to_be_retweeted.txt", "w")
     print(f"Tweeting: {datetime.datetime.now()}\n")
@@ -232,7 +231,7 @@ if __name__ == "__main__":
 
         tweet_text, tweet_picture = tw
 
-        print(send_tweet(client, old_api, tweet_text, tweet_picture) + "\n", file=to_be_retweeted)
+        print(send_tweet(client, old_api, tweet_text, tweet_picture), file=to_be_retweeted)
         print(f"Tweeted: {tweet_text}\n")
 
     print(f"Tweeted Successfully {datetime.datetime.now()}\n")

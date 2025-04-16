@@ -16,6 +16,9 @@ def get_twitter_client():
     return client
 
 if __name__ == "__main__":
+    sys.stdout = open("/home/alihahn/Desktop/atolye/odtu_kafeterya_tw_bot/stdout.txt", "a")
+    sys.stderr = sys.stdout
+    
     client = get_twitter_client()
 
     ogle_dk = 11*60 + 30
@@ -33,17 +36,14 @@ if __name__ == "__main__":
     ogle_id = int(ogle_id.strip())
     aksam_id = int(aksam_id.strip())
 
-    sys.stdout = open("/home/alihahn/Desktop/atolye/odtu_kafeterya_tw_bot/stdout.txt", "a")
-    sys.stderr = sys.stdout
-
     print(f"Retweeting: {datetime.datetime.now()}\n")
 
     if abs(time_minutes - ogle_dk) < abs(time_minutes - aksam_dk):
         print(f"Retweeting Ogledin: {ogle_id}\n")
-        client.retweet(ogle_id)
+        #client.retweet(ogle_id)
     else:
         print(f"Retweeting Aksam: {aksam_id}\n")
-        client.retweet(aksam_id)
+        #client.retweet(aksam_id)
 
     print(f"Retweeted Successfully {datetime.datetime.now()}\n")
     sys.stdout.close()
