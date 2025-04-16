@@ -156,7 +156,7 @@ def prepare_tweets(meals):
         
         if "food" in keys:
             for fod in meal["food"]:
-                tweet_text += fod + "\n"
+                tweet_text += "-" + fod + "\n"
         else:
             return
         
@@ -177,7 +177,7 @@ def prepare_tweets(meals):
 
             tweet_picture = stitched_image
         
-        tweets.append((tweet_text, tweet_picture))
+        tweets.append((tweet_text.lower(), tweet_picture))
 
     return tweets
 
